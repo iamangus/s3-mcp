@@ -88,19 +88,19 @@ func (s *Store) Remove(ctx context.Context, key string) error {
 	return nil
 }
 
-func (s *Store) Replace(ctx context.Context, key, content string, chunks []chunkResult) error {
+func (s *Store) Replace(ctx context.Context, key string, chunks []ChunkResult) error {
 	if err := s.Remove(ctx, key); err != nil {
 		return fmt.Errorf("remove old: %w", err)
 	}
 	return s.AddMulti(ctx, key, chunks)
 }
 
-type chunkResult struct {
+type ChunkResult struct {
 	Content    string
 	ChunkIndex int
 }
 
-func (s *Store) AddMulti(ctx context.Context, key string, chunks []chunkResult) error {
+func (s *Store) AddMulti(ctx context.Context, key string, chunks []ChunkResult) error {
 	docs := make([]chromem.Document, len(chunks))
 	ids := make([]string, len(chunks))
 

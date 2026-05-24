@@ -128,10 +128,12 @@ func (idx *Indexer) processObject(ctx context.Context, key string) error {
 		return nil
 	}
 
-	for _, c := range chunks {
-		if err := idx.st.Add(ctx, key, c.Content, c.ChunkIndex, c.TotalChunks); err != nil {
-			return fmt.Errorf("store add: %w", err)
-		}
+	cr := make([]store.ChunkResult, len(chunks))
+	for i, c := range chunks {
+		cr[i] = store.ChunkResult{Content: c.Content, ChunkIndex: c.ChunkIndex}
+	}
+	if err := idx.st.AddMulti(ctx, key, cr); err != nil {
+		return fmt.Errorf("store add batch: %w", err)
 	}
 
 	return nil
