@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"os/signal"
+	"runtime"
 	"strings"
 	"syscall"
 
@@ -28,6 +29,8 @@ func main() {
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
+
+	logDiagnostics()
 
 	awsCfg, err := loadAWSConfig(ctx, cfg)
 	if err != nil {
@@ -137,4 +140,25 @@ func (h *handler) OnObjectRemoved(ctx context.Context, key string) error {
 		return nil
 	}
 	return h.store.Remove(ctx, key)
+}
+
+func logDiagnostics() {
+	var limit syscall.Rlimit
+	if err := syscall.Getrlimit(syscall.RLIMIT_NOFILE, &limit); err == nil {
+		log.Printf("[diag] RLIMIT_NOFILE: soft=%d hard=%d", limit.Cur, limit.Max)
+	} else {
+		log.Printf("[diag] RLIMIT_NOFILE: <unavailable: %v>", err)
+	}
+
+	for _, p := range []string{
+		"/proc/sys/fs/inotify/max_user_watches",
+		"/proc/sys/fs/inotify/max_user_instances",
+		"/proc/sys/fs/inotify/max_queued_events",
+	} {
+		if data, err := os.ReadFile(p); err == nil {
+			log.Printf("[diag] %s = %s", p, strings.TrimSpace(string(data)))
+		}
+	}
+
+	log.Printf("[diag] GOMAXPROCS=%d, num goroutines=%d", runtime.GOMAXPROCS(0), runtime.NumGoroutine())
 }

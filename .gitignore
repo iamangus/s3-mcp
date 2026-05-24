@@ -7,3 +7,5 @@
 .env
 .env.local
 /scripts/
+
+compartment-output.xml
