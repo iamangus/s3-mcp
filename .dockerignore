@@ -1,0 +1,7 @@
+.git/
+scripts/
+.env*
+*.out
+*.test
+server
+s3-mcp

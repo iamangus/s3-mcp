@@ -1,0 +1,9 @@
+/server
+/s3-mcp
+*.out
+*.test
+*.swp
+*.swo
+.env
+.env.local
+/scripts/

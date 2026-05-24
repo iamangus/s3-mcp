@@ -1,0 +1,22 @@
+services:
+  s3-mcp:
+    build: .
+    ports:
+      - "${MCP_PORT:-8080}:8080"
+    environment:
+      - AWS_REGION
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
+      - S3_BUCKET
+      - S3_ENDPOINT_URL
+      - S3_PREFIX
+      - S3_NO_SIGN_REQUEST
+      - SQS_QUEUE_URL
+      - OPENAI_API_KEY
+      - OPENAI_BASE_URL
+      - EMBEDDING_MODEL
+      - MCP_PORT
+      - CHUNK_SIZE
+      - CHUNK_OVERLAP
+      - MAX_FILE_SIZE_MB
+      - CONCURRENCY
