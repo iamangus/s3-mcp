@@ -9,5 +9,6 @@ FROM alpine:latest
 RUN apk --no-cache add ca-certificates
 WORKDIR /root/
 COPY --from=builder /app/s3-mcp .
+ENV GODEBUG=netdns=go
 EXPOSE 8080
 CMD ["./s3-mcp"]

@@ -29,7 +29,7 @@ func Load() (*Config, error) {
 		ChunkSize:      envInt("CHUNK_SIZE", 1000),
 		ChunkOverlap:   envInt("CHUNK_OVERLAP", 200),
 		MaxFileSizeMB:  envInt("MAX_FILE_SIZE_MB", 10),
-		Concurrency:    envInt("CONCURRENCY", 10),
+		Concurrency:    envInt("CONCURRENCY", 5),
 		EmbeddingModel: env("EMBEDDING_MODEL", "text-embedding-3-small"),
 		OpenAIBaseURL:  os.Getenv("OPENAI_BASE_URL"),
 	}

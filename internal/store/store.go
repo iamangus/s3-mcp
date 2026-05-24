@@ -127,7 +127,7 @@ func (s *Store) AddMulti(ctx context.Context, key string, chunks []ChunkResult) 
 }
 
 func (s *Store) dbConcurrency() int {
-	return 4
+	return 2
 }
 
 func (s *Store) Search(ctx context.Context, query string, limit int) ([]DocRef, error) {
