@@ -1,0 +1,5 @@
+version: v4
+ci:
+  profile: auto
+  required_checks:
+    - ci / OpenDev CI

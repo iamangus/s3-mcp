@@ -1,0 +1,14 @@
+name: OpenDev CI
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+permissions:
+  contents: read
+
+jobs:
+  ci:
+    uses: iamangus/opendev/.github/workflows/opendev-ci.yml@v4
+    with:
+      profile: auto
